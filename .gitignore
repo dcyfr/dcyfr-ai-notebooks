@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env
+.env.local
+coverage/
+*.log
+data/
+output/
+.ipynb_checkpoints/
+__pycache__/
+*.pyc

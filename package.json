@@ -1,0 +1,44 @@
+{
+  "name": "@dcyfr/ai-notebooks",
+  "version": "0.1.0",
+  "description": "Data science notebook starter template with TypeScript tooling for Jupyter notebook management, data pipelines, and visualization",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./notebook": "./src/notebook/index.ts",
+    "./pipeline": "./src/pipeline/index.ts",
+    "./visualization": "./src/visualization/index.ts",
+    "./utils": "./src/utils/index.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "example:explore": "tsx examples/data-exploration/index.ts",
+    "example:pipeline": "tsx examples/data-pipeline/index.ts",
+    "example:analysis": "tsx examples/model-analysis/index.ts"
+  },
+  "keywords": [
+    "dcyfr",
+    "ai",
+    "jupyter",
+    "notebooks",
+    "data-science",
+    "data-pipeline",
+    "visualization",
+    "typescript"
+  ],
+  "author": "DCYFR <hello@dcyfr.ai>",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.3",
+    "typescript": "~5.7.3",
+    "vitest": "^2.1.9"
+  }
+}
