@@ -1,3 +1,4 @@
+<!-- TLP:CLEAR -->
 # Architecture
 
 ## Overview
