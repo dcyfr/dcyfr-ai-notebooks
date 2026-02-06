@@ -99,7 +99,7 @@ describe('Cell Outputs', () => {
 describe('Cell Status', () => {
   it('marks cell as running', () => {
     const cell = codeCell('x');
-    const running = markRunning(cell);
+    const running = markRunning(cell, 1);
     expect(running.status).toBe('running');
   });
 

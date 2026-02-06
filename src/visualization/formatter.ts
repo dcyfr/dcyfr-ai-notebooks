@@ -73,7 +73,7 @@ export function renderDatasetTable(dataset: Dataset, maxRows = 20): string {
   const headers = dataset.metadata.columns.map((c) => c.name);
   const displayRows = dataset.rows.slice(0, maxRows);
   const tableRows = displayRows.map((row) =>
-    headers.map((h) => row[h])
+    headers.map((h) => row[h] as string | number | null | undefined)
   );
 
   let result = renderTable(headers, tableRows);

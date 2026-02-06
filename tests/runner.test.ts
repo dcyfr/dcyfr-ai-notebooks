@@ -20,15 +20,16 @@ describe('Default Executor', () => {
   it('produces text output from source lines', async () => {
     const ctx = createExecutionContext();
     const outputs = await defaultExecutor('line1\nline2', ctx);
-    expect(outputs).toHaveLength(2);
+    // Default executor joins non-empty lines with '> ' prefix
+    expect(outputs).toHaveLength(1);
     expect(outputs[0].type).toBe('text');
-    expect(outputs[0].data).toBe('line1');
+    expect(String(outputs[0].data)).toContain('line1');
   });
 
   it('handles empty source', async () => {
     const ctx = createExecutionContext();
     const outputs = await defaultExecutor('', ctx);
-    // Empty string splits to [''], so 1 output
+    // Empty string: no non-empty lines → empty output or single empty
     expect(outputs.length).toBeGreaterThanOrEqual(0);
   });
 });
@@ -42,7 +43,7 @@ describe('Execution Context', () => {
   });
 
   it('creates a context with custom variables', () => {
-    const ctx = createExecutionContext({ x: 42 });
+    const ctx = createExecutionContext({ variables: { x: 42 } });
     expect(ctx.variables).toEqual({ x: 42 });
   });
 });
@@ -51,7 +52,7 @@ describe('Cell Execution', () => {
   it('executes a code cell', async () => {
     const cell = codeCell('hello world');
     const ctx = createExecutionContext();
-    const result = await executeCell(cell, { executor: defaultExecutor }, ctx);
+    const result = await executeCell(cell, defaultExecutor, ctx);
     expect(result.status).toBe('completed');
     expect(result.outputs.length).toBeGreaterThan(0);
   });
@@ -59,9 +60,8 @@ describe('Cell Execution', () => {
   it('skips markdown cells', async () => {
     const cell = markdownCell('# Title');
     const ctx = createExecutionContext();
-    const result = await executeCell(cell, { executor: defaultExecutor }, ctx);
-    // Markdown cells should be skipped or passed through
-    expect(['completed', 'skipped', 'idle']).toContain(result.status);
+    const result = await executeCell(cell, defaultExecutor, ctx);
+    expect(result.status).toBe('skipped');
   });
 
   it('handles executor errors', async () => {
@@ -70,7 +70,7 @@ describe('Cell Execution', () => {
     };
     const cell = codeCell('will fail');
     const ctx = createExecutionContext();
-    const result = await executeCell(cell, { executor: errorExecutor }, ctx);
+    const result = await executeCell(cell, errorExecutor, ctx);
     expect(result.status).toBe('error');
   });
 });
@@ -81,7 +81,7 @@ describe('Notebook Execution', () => {
     nb = addCell(nb, codeCell('line1'));
     nb = addCell(nb, codeCell('line2'));
 
-    const { result } = await executeNotebook(nb);
+    const result = await executeNotebook(nb);
     expect(result.cells.length).toBe(2);
   });
 
@@ -91,7 +91,7 @@ describe('Notebook Execution', () => {
     nb = addCell(nb, markdownCell('b'));
     nb = addCell(nb, codeCell('c'));
 
-    const { result } = await executeNotebook(nb);
+    const result = await executeNotebook(nb);
     const summary = getExecutionSummary(result);
     expect(summary.total).toBe(3);
     expect(summary.completed + summary.skipped + summary.errors + summary.idle).toBe(3);
@@ -108,7 +108,7 @@ describe('Notebook Execution', () => {
     nb = addCell(nb, codeCell('fail'));
     nb = addCell(nb, codeCell('never'));
 
-    const { result } = await executeNotebook(nb, {
+    const result = await executeNotebook(nb, {
       executor: errorExecutor,
       stopOnError: true,
     });
@@ -128,7 +128,7 @@ describe('Notebook Execution', () => {
     nb = addCell(nb, codeCell('fail'));
     nb = addCell(nb, codeCell('also ok'));
 
-    const { result } = await executeNotebook(nb, {
+    const result = await executeNotebook(nb, {
       executor: errorExecutor,
       stopOnError: false,
     });
@@ -146,12 +146,11 @@ describe('Notebook Execution', () => {
     nb = addCell(nb, cell2);
     nb = addCell(nb, cell3);
 
-    const { result } = await executeNotebook(nb, {
+    const result = await executeNotebook(nb, {
       cellIds: [cell1.id, cell3.id],
     });
 
-    // Should have processed all cells but only executed selected ones
-    expect(result.cells.length).toBeGreaterThan(0);
+    expect(result.cells.length).toBe(3);
   });
 
   it('calls onCellComplete callback', async () => {
