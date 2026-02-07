@@ -17,6 +17,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
     "example:explore": "tsx examples/data-exploration/index.ts",
     "example:pipeline": "tsx examples/data-pipeline/index.ts",
     "example:analysis": "tsx examples/model-analysis/index.ts"
