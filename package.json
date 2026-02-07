@@ -1,6 +1,6 @@
 {
   "name": "@dcyfr/ai-notebooks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Data science notebook starter template with TypeScript tooling for Jupyter notebook management, data pipelines, and visualization",
   "type": "module",
   "main": "src/index.ts",
