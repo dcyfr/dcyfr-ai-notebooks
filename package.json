@@ -40,6 +40,10 @@
   ],
   "author": "DCYFR <hello@dcyfr.ai>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dcyfr/dcyfr-ai-notebooks"
+  },
   "dependencies": {
     "zod": "^3.24.3"
   },
