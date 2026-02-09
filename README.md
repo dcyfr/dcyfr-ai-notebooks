@@ -2,6 +2,8 @@
 
 Data science notebook toolkit for TypeScript — create, execute, and analyze computational notebooks with built-in data pipeline and visualization support.
 
+> **📦 Starter Template** — This is a **starter template** for cloning, not an npm package. Use `git clone` or download the source to create your own data science toolkit. This package is marked `private: true` and is not published to npm.
+
 ## Features
 
 - **Notebook Engine** — Create, manage, and execute computational notebooks with cells, outputs, and metadata
