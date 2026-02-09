@@ -1,5 +1,11 @@
 # @dcyfr/ai-notebooks
 
+## 1.0.1
+
+### Patch Changes
+
+- 389fb9a: Test automated publishing workflow with Trusted Publishing
+
 ## 1.0.0
 
 ### Major Changes
