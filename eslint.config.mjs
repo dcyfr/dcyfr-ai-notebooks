@@ -18,6 +18,13 @@ export default tseslint.config(
     ...tseslint.configs.disableTypeChecked,
   },
   {
-    ignores: ['dist/**', 'coverage/**', 'node_modules/**', '*.config.*'],
+    files: ['tests/**/*.ts'],
+    rules: {
+      '@typescript-eslint/require-await': 'off',
+      '@typescript-eslint/restrict-template-expressions': 'off',
+    },
+  },
+  {
+    ignores: ['dist/**', 'coverage/**', 'node_modules/**', '*.config.*', 'examples/**'],
   },
 );

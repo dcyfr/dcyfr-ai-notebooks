@@ -134,7 +134,8 @@ export function formatNumber(value: number, decimals = 2): string {
 export function renderSummary(title: string, items: Record<string, unknown>): string {
   const lines = [`  ${title}`, '  ' + '─'.repeat(40)];
   for (const [key, value] of Object.entries(items)) {
-    lines.push(`  ${key.padEnd(20)} ${value}`);
+    const valueStr = typeof value === 'object' && value !== null ? JSON.stringify(value) : String(value);
+    lines.push(`  ${key.padEnd(20)} ${valueStr}`);
   }
   return lines.join('\n');
 }

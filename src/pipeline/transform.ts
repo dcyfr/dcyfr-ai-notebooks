@@ -153,7 +153,7 @@ export function normalize(dataset: Dataset, column: string): Dataset {
     dataset.rows.map((r) => ({
       ...r,
       [column]: typeof r[column] === 'number'
-        ? ((r[column] as number) - min) / range
+        ? ((r[column]) - min) / range
         : r[column],
     })),
     dataset.metadata.name

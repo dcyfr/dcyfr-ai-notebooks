@@ -34,6 +34,7 @@ export interface ExecutionOptions {
 /**
  * Default cell executor: evaluates source as a function body
  */
+// eslint-disable-next-line @typescript-eslint/require-await
 export const defaultExecutor: CellExecutor = async (source, context) => {
   // Simple evaluation — returns text output of the source
   // In a real implementation, this would use a kernel (Jupyter, Deno, etc.)
