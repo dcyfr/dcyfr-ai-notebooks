@@ -184,9 +184,9 @@ export function exportNotebook(notebook: Notebook): string {
  * Import notebook from JSON
  */
 export function importNotebook(json: string): Notebook {
-  const parsed = JSON.parse(json);
+  const parsed = JSON.parse(json) as ParsedNotebook;
   // Ensure cells have defaults
-  const cells = (parsed.cells ?? []).map((c: Partial<Cell>) => ({
+  const cells = (parsed.cells ?? []).map((c) => ({
     id: c.id ?? randomUUID(),
     type: c.type ?? 'code',
     source: c.source ?? '',

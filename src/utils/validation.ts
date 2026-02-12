@@ -124,7 +124,8 @@ export function matchesPattern(pattern: RegExp): ColumnValidator {
 export function oneOf(allowed: unknown[]): ColumnValidator {
   return (value) => {
     if (value === null || value === undefined) return null;
-    return !allowed.includes(value) ? `Value "${value}" not in allowed set` : null;
+    const valueStr = typeof value === 'object' ? JSON.stringify(value) : String(value);
+    return !allowed.includes(value) ? `Value "${valueStr}" not in allowed set` : null;
   };
 }
 

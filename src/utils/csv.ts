@@ -90,7 +90,9 @@ export function toCSV(dataset: Dataset, options?: { delimiter?: string }): strin
   const headers = dataset.metadata.columns.map((c) => c.name);
 
   const escape = (val: unknown): string => {
-    const str = val === null || val === undefined ? '' : String(val);
+    if (val === null || val === undefined) return '';
+    if (typeof val === 'object') return JSON.stringify(val);
+    const str = String(val);
     if (str.includes(delimiter) || str.includes('"') || str.includes('\n')) {
       return `"${str.replace(/"/g, '""')}"`;
     }
