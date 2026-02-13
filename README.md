@@ -14,7 +14,9 @@ Data science notebook toolkit for TypeScript — create, execute, and analyze co
 ## Quick Start
 
 ```bash
-npm install @dcyfr/ai-notebooks
+# Clone or use as part of the DCYFR workspace
+git clone https://github.com/dcyfr/dcyfr-ai-notebooks
+npm install
 ```
 
 ### Create and Execute a Notebook
