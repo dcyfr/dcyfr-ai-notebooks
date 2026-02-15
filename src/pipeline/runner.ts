@@ -2,7 +2,7 @@
  * Pipeline Runner - ETL/data pipeline orchestration
  */
 
-import type { PipelineConfig, PipelineResult, PipelineStep, StepStatus } from '../types/index.js';
+import type { PipelineConfig, PipelineResult, PipelineStep } from '../types/index.js';
 
 /** Step function */
 export type StepFn<T = unknown> = (input: T, context: PipelineContext) => Promise<T>;

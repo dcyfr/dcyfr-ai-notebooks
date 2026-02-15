@@ -18,13 +18,12 @@ import {
   renderStatsTable,
   renderBarChart,
   barChart,
-  lineChart,
   renderSummary,
   sparkline,
   mean,
   stddev,
   exportNotebook,
-} from '../src/index.js';
+} from '../../src/index.js';
 
 // ---- 1. Create model predictions dataset ----
 
@@ -108,7 +107,7 @@ nb = addCell(nb, codeCell('// Load and inspect dataset\nconsole.log("Loaded", pr
 nb = addCell(nb, codeCell('// Compute statistics\nconst stats = describe(predictions);\nconsole.log(renderStatsTable(stats));'));
 nb = addCell(nb, markdownCell('## Conclusions\n\n- Fine-tuned model achieves highest accuracy (0.92)\n- Distilled model offers best latency/accuracy trade-off\n- Strong negative correlation between accuracy and loss'));
 
-const { result } = await executeNotebook(nb);
+const result = await executeNotebook(nb);
 const summary = getExecutionSummary(result);
 console.log(`Notebook cells: ${summary.total}`);
 console.log(`Completed: ${summary.completed}`);

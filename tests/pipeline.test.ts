@@ -74,7 +74,7 @@ describe('Pipeline Execution', () => {
   });
 
   it('continues on error when configured', async () => {
-    const { result, output } = await createPipeline<number>('resilient', {
+    const { result } = await createPipeline<number>('resilient', {
       continueOnError: true,
     })
       .step('ok', async (n) => n + 1)
@@ -106,8 +106,6 @@ describe('Pipeline Execution', () => {
   });
 
   it('provides context to step functions', async () => {
-    const logs: string[] = [];
-
     await createPipeline<number>('contextual', { verbose: true })
       .step('step-a', async (n, ctx) => {
         ctx.log(`Processing ${n}`);

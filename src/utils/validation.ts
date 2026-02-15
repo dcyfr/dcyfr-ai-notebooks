@@ -104,7 +104,7 @@ export function isString(): ColumnValidator {
 export function inRange(min: number, max: number): ColumnValidator {
   return (value) => {
     if (typeof value !== 'number') return null;
-    return value < min || value > max ? `Value ${value} not in range [${min}, ${max}]` : null;
+    return value < min || value > max ? `Value ${String(value)} not in range [${min}, ${max}]` : null;
   };
 }
 
@@ -114,7 +114,7 @@ export function inRange(min: number, max: number): ColumnValidator {
 export function matchesPattern(pattern: RegExp): ColumnValidator {
   return (value) => {
     if (typeof value !== 'string') return null;
-    return !pattern.test(value) ? `Value "${value}" does not match pattern ${pattern}` : null;
+    return !pattern.test(value) ? `Value "${value}" does not match pattern ${pattern.toString()}` : null;
   };
 }
 
@@ -124,7 +124,16 @@ export function matchesPattern(pattern: RegExp): ColumnValidator {
 export function oneOf(allowed: unknown[]): ColumnValidator {
   return (value) => {
     if (value === null || value === undefined) return null;
-    const valueStr = typeof value === 'object' ? JSON.stringify(value) : String(value);
+    const valueStr =
+      typeof value === 'object'
+        ? JSON.stringify(value)
+        : typeof value === 'string'
+          ? value
+          : typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint'
+            ? `${value}`
+            : typeof value === 'symbol'
+              ? value.description ?? 'symbol'
+              : '[unsupported]';
     return !allowed.includes(value) ? `Value "${valueStr}" not in allowed set` : null;
   };
 }

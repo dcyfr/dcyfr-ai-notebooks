@@ -2,7 +2,7 @@
  * Statistics - Descriptive statistics and analysis
  */
 
-import type { CorrelationEntry, DataRow, Dataset, DescriptiveStats } from '../types/index.js';
+import type { CorrelationEntry, Dataset, DescriptiveStats } from '../types/index.js';
 import { getNumericColumn } from './dataset.js';
 
 /**
