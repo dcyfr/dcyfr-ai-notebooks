@@ -19,7 +19,7 @@ import {
   renderStatsTable,
   sparkline,
   parseCSV,
-} from '../src/index.js';
+} from '../../src/index.js';
 
 // ---- 1. Create a sample dataset ----
 

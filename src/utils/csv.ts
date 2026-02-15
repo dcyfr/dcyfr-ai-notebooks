@@ -92,7 +92,16 @@ export function toCSV(dataset: Dataset, options?: { delimiter?: string }): strin
   const escape = (val: unknown): string => {
     if (val === null || val === undefined) return '';
     if (typeof val === 'object') return JSON.stringify(val);
-    const str = String(val);
+    const str =
+      typeof val === 'string'
+        ? val
+        : typeof val === 'number' || typeof val === 'boolean' || typeof val === 'bigint'
+          ? `${val}`
+          : typeof val === 'symbol'
+            ? val.description ?? 'symbol'
+            : typeof val === 'function'
+              ? '[function]'
+              : '';
     if (str.includes(delimiter) || str.includes('"') || str.includes('\n')) {
       return `"${str.replace(/"/g, '""')}"`;
     }

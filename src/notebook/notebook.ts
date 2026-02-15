@@ -3,8 +3,19 @@
  */
 
 import { randomUUID } from 'node:crypto';
-import type { Cell, Notebook, NotebookMetadata } from '../types/index.js';
-import { createCell, filterCodeCells } from './cell.js';
+import {
+  NotebookSchema,
+  type Cell,
+  type Notebook,
+  type NotebookMetadata,
+} from '../types/index.js';
+import { filterCodeCells } from './cell.js';
+
+interface ParsedNotebook {
+  id?: string;
+  cells?: Partial<Cell>[];
+  metadata?: Partial<NotebookMetadata>;
+}
 
 export interface CreateNotebookOptions {
   id?: string;
@@ -184,7 +195,14 @@ export function exportNotebook(notebook: Notebook): string {
  * Import notebook from JSON
  */
 export function importNotebook(json: string): Notebook {
-  const parsed = JSON.parse(json) as ParsedNotebook;
+  const parsedUnknown: unknown = JSON.parse(json);
+
+  const strictParsed = NotebookSchema.safeParse(parsedUnknown);
+  if (strictParsed.success) {
+    return strictParsed.data;
+  }
+
+  const parsed = parsedUnknown as ParsedNotebook;
   // Ensure cells have defaults
   const cells = (parsed.cells ?? []).map((c) => ({
     id: c.id ?? randomUUID(),

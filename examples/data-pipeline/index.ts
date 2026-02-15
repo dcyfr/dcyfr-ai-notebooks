@@ -20,9 +20,9 @@ import {
   inRange,
   formatDuration,
   progressBar,
-} from '../src/index.js';
+} from '../../src/index.js';
 
-import type { Dataset } from '../src/index.js';
+import type { Dataset } from '../../src/index.js';
 
 // ---- 1. Build a raw dataset ----
 
