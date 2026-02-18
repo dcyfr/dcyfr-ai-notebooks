@@ -19,6 +19,22 @@ export function mapRows(
 }
 
 /**
+ * Apply a single aggregation function to a set of numeric values.
+ */
+function applyAggregation(
+  values: number[],
+  fn: 'sum' | 'avg' | 'count' | 'min' | 'max',
+  rowCount: number,
+): number | null {
+  if (fn === 'count') return rowCount;
+  if (values.length === 0) return null;
+  if (fn === 'sum') return values.reduce((a, b) => a + b, 0);
+  if (fn === 'avg') return values.reduce((a, b) => a + b, 0) / values.length;
+  if (fn === 'min') return Math.min(...values);
+  return Math.max(...values);
+}
+
+/**
  * Aggregate dataset by groups
  */
 export function aggregate(
@@ -42,26 +58,7 @@ export function aggregate(
       const values = rows
         .map((r) => r[spec.column])
         .filter((v): v is number => typeof v === 'number');
-
-      switch (spec.fn) {
-        case 'sum':
-          aggregated[alias] = values.reduce((a, b) => a + b, 0);
-          break;
-        case 'avg':
-          aggregated[alias] = values.length > 0
-            ? values.reduce((a, b) => a + b, 0) / values.length
-            : 0;
-          break;
-        case 'count':
-          aggregated[alias] = rows.length;
-          break;
-        case 'min':
-          aggregated[alias] = values.length > 0 ? Math.min(...values) : null;
-          break;
-        case 'max':
-          aggregated[alias] = values.length > 0 ? Math.max(...values) : null;
-          break;
-      }
+      aggregated[alias] = applyAggregation(values, spec.fn, rows.length);
     }
 
     result.push(aggregated);
