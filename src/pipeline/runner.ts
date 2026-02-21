@@ -87,6 +87,40 @@ export interface PipelineRunResult<T = unknown> {
   output: T;
 }
 
+async function executeStepWithRetry<T>(
+  stepFn: StepFn<T>,
+  input: T,
+  context: PipelineContext,
+  config: PipelineConfig,
+  step: PipelineStep,
+  onStepComplete?: (s: PipelineStep) => void,
+): Promise<{ output: T; succeeded: boolean }> {
+  const maxAttempts = config.retryOnFailure ? config.maxRetries + 1 : 1;
+  let attempts = 0;
+  let success = false;
+  let output = input;
+
+  while (attempts < maxAttempts && !success) {
+    attempts++;
+    try {
+      output = await stepFn(input, context);
+      step.status = 'completed';
+      step.completedAt = Date.now();
+      success = true;
+      onStepComplete?.(step);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (attempts >= maxAttempts) {
+        step.status = 'failed';
+        step.error = message;
+        step.completedAt = Date.now();
+      }
+    }
+  }
+
+  return { output, succeeded: success };
+}
+
 /**
  * Execute a pipeline definition
  */
@@ -139,28 +173,20 @@ export async function executePipeline<T>(
       log: (msg: string) => logs.push(`[${stepName}] ${msg}`),
     };
 
-    let attempts = 0;
-    const maxAttempts = config.retryOnFailure ? config.maxRetries + 1 : 1;
-    let success = false;
+    const { output: nextInput, succeeded } = await executeStepWithRetry(
+      stepFn,
+      currentInput,
+      context,
+      config,
+      step,
+      options?.onStepComplete,
+    );
 
-    while (attempts < maxAttempts && !success) {
-      attempts++;
-      try {
-        currentInput = await stepFn(currentInput, context);
-        step.status = 'completed';
-        step.completedAt = Date.now();
-        success = true;
-        options?.onStepComplete?.(step);
-      } catch (err) {
-        const message = err instanceof Error ? err.message : String(err);
-        if (attempts >= maxAttempts) {
-          step.status = 'failed';
-          step.error = message;
-          step.completedAt = Date.now();
-          pipelineStatus = config.continueOnError ? 'partial' : 'failed';
-          pipelineError = message;
-        }
-      }
+    if (succeeded) {
+      currentInput = nextInput;
+    } else {
+      pipelineStatus = config.continueOnError ? 'partial' : 'failed';
+      pipelineError = step.error;
     }
 
     stepResults.push(step);
