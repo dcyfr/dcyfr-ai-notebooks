@@ -36,3 +36,8 @@ npm run test:coverage # Coverage (80% threshold)
 - No side effects in data transforms
 - All public APIs exported through barrel files
 - Descriptive function names matching domain terminology
+
+## Quality Gates
+- TypeScript: 0 errors (`npm run typecheck`)
+- Tests: ≥99% pass rate (`npm run test`)
+- Lint: 0 errors (`npm run lint`)
