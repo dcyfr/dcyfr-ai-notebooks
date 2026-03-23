@@ -4,6 +4,7 @@
 > This experimental package is deprecated on npm and is no longer actively maintained.  
 > **Last published version:** v1.0.1  
 > **Alternatives:**
+>
 > - Fork this repository if you need the functionality
 > - Use [Observable](https://observablehq.com/) for JavaScript notebooks
 > - Use [Jupyter](https://jupyter.org/) with TypeScript kernel for data science
@@ -19,6 +20,15 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
 ~~Data science notebook toolkit for TypeScript~~ **DEPRECATED: No longer maintained**
+
+## About DCYFR
+
+`@dcyfr/ai-notebooks` is maintained by **DCYFR Labs** as part of the DCYFR experimentation toolkit portfolio.
+
+- **DCYFR** is a registered trademark of DCYFR Labs.
+- Primary domain: [www.dcyfr.ai](https://www.dcyfr.ai)
+- Trademark guidance: [../TRADEMARK.md](../TRADEMARK.md)
+- Licensing details: [LICENSE](./LICENSE)
 
 ## Features
 
@@ -47,12 +57,12 @@ import {
   markdownCell,
   executeNotebook,
   getExecutionSummary,
-} from '@dcyfr/ai-notebooks';
+} from "@dcyfr/ai-notebooks";
 
 // Create a notebook
-let nb = createNotebook({ title: 'My Analysis' });
-nb = addCell(nb, markdownCell('# Hello World'));
-nb = addCell(nb, codeCell('const x = 42;\nconsole.log(x);'));
+let nb = createNotebook({ title: "My Analysis" });
+nb = addCell(nb, markdownCell("# Hello World"));
+nb = addCell(nb, codeCell("const x = 42;\nconsole.log(x);"));
 
 // Execute
 const { result } = await executeNotebook(nb);
@@ -70,35 +80,43 @@ import {
   head,
   renderDatasetTable,
   renderStatsTable,
-} from '@dcyfr/ai-notebooks';
+} from "@dcyfr/ai-notebooks";
 
-const data = createDataset([
-  { name: 'Alice', score: 92.5 },
-  { name: 'Bob', score: 88.0 },
-  { name: 'Charlie', score: 95.3 },
-], 'students');
+const data = createDataset(
+  [
+    { name: "Alice", score: 92.5 },
+    { name: "Bob", score: 88.0 },
+    { name: "Charlie", score: 95.3 },
+  ],
+  "students",
+);
 
 // Descriptive statistics
 console.log(renderStatsTable(describe(data)));
 
 // Top performers
-console.log(renderDatasetTable(head(sortBy(data, 'score', false))));
+console.log(renderDatasetTable(head(sortBy(data, "score", false))));
 ```
 
 ### Data Pipelines
 
 ```typescript
-import { createPipeline, filterRows, normalize, aggregate } from '@dcyfr/ai-notebooks';
-import type { Dataset } from '@dcyfr/ai-notebooks';
+import {
+  createPipeline,
+  filterRows,
+  normalize,
+  aggregate,
+} from "@dcyfr/ai-notebooks";
+import type { Dataset } from "@dcyfr/ai-notebooks";
 
-const pipeline = createPipeline<Dataset>('my-pipeline')
-  .step('filter', async (data) => filterRows(data, (r) => r.active === true))
-  .step('normalize', async (data) => normalize(data, 'score'))
-  .step('aggregate', async (data) =>
-    aggregate(data, 'category', {
-      avg_score: { column: 'score', fn: 'avg' },
-      count: { column: 'score', fn: 'count' },
-    })
+const pipeline = createPipeline<Dataset>("my-pipeline")
+  .step("filter", async (data) => filterRows(data, (r) => r.active === true))
+  .step("normalize", async (data) => normalize(data, "score"))
+  .step("aggregate", async (data) =>
+    aggregate(data, "category", {
+      avg_score: { column: "score", fn: "avg" },
+      count: { column: "score", fn: "count" },
+    }),
   );
 
 const { result, output } = await pipeline.run(dataset);
@@ -108,22 +126,22 @@ console.log(`Status: ${result.status}, Steps: ${result.steps.length}`);
 ### Visualization
 
 ```typescript
-import { barChart, renderBarChart, sparkline } from '@dcyfr/ai-notebooks';
+import { barChart, renderBarChart, sparkline } from "@dcyfr/ai-notebooks";
 
-const chart = barChart('Sales', ['Q1', 'Q2', 'Q3', 'Q4'], [120, 150, 180, 200]);
+const chart = barChart("Sales", ["Q1", "Q2", "Q3", "Q4"], [120, 150, 180, 200]);
 console.log(renderBarChart(chart));
 
-console.log('Trend:', sparkline([120, 150, 180, 200]));
+console.log("Trend:", sparkline([120, 150, 180, 200]));
 ```
 
 ## Module Structure
 
-| Module | Import Path | Description |
-|--------|------------|-------------|
-| Notebook | `@dcyfr/ai-notebooks/notebook` | Cell/notebook CRUD, execution engine |
-| Pipeline | `@dcyfr/ai-notebooks/pipeline` | Dataset ops, transforms, statistics, ETL |
-| Visualization | `@dcyfr/ai-notebooks/visualization` | Charts, tables, themes, formatters |
-| Utils | `@dcyfr/ai-notebooks/utils` | CSV, formatting, validation |
+| Module        | Import Path                         | Description                              |
+| ------------- | ----------------------------------- | ---------------------------------------- |
+| Notebook      | `@dcyfr/ai-notebooks/notebook`      | Cell/notebook CRUD, execution engine     |
+| Pipeline      | `@dcyfr/ai-notebooks/pipeline`      | Dataset ops, transforms, statistics, ETL |
+| Visualization | `@dcyfr/ai-notebooks/visualization` | Charts, tables, themes, formatters       |
+| Utils         | `@dcyfr/ai-notebooks/utils`         | CSV, formatting, validation              |
 
 ## Examples
 

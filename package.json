@@ -35,12 +35,16 @@
     "visualization",
     "typescript"
   ],
-  "author": "DCYFR <hello@dcyfr.ai>",
+  "author": "DCYFR Labs",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/dcyfr/dcyfr-ai-notebooks"
   },
+  "bugs": {
+    "url": "https://github.com/dcyfr/dcyfr-ai-notebooks/issues"
+  },
+  "homepage": "https://github.com/dcyfr/dcyfr-ai-notebooks#readme",
   "dependencies": {
     "zod": "^4.3.6"
   },
