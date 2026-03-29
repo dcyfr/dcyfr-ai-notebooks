@@ -1,5 +1,13 @@
 # @dcyfr/ai-notebooks
 
+<!-- README-META
+  tlp_clearance: GREEN
+  status: deprecated
+  name: dcyfr-ai-notebooks
+  description: Data science notebook toolkit with TypeScript tooling for Jupyter notebook management, data pipelines, and visualization
+  last_validated: 2026-03-29
+-->
+
 > **⚠️ PACKAGE DEPRECATED & NO LONGER MAINTAINED (February 27, 2026)**  
 > This experimental package is deprecated on npm and is no longer actively maintained.  
 > **Last published version:** v1.0.1  
