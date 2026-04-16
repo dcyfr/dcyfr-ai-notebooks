@@ -39,12 +39,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dcyfr/dcyfr-ai-notebooks"
+    "url": "https://github.com/dcyfr-labs/dcyfr-ai-notebooks"
   },
   "bugs": {
-    "url": "https://github.com/dcyfr/dcyfr-ai-notebooks/issues"
+    "url": "https://github.com/dcyfr-labs/dcyfr-ai-notebooks/issues"
   },
-  "homepage": "https://github.com/dcyfr/dcyfr-ai-notebooks#readme",
+  "homepage": "https://github.com/dcyfr-labs/dcyfr-ai-notebooks#readme",
   "dependencies": {
     "zod": "^4.3.6"
   },
