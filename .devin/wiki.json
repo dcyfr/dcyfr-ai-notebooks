@@ -1,0 +1,8 @@
+{
+  "repo_notes": [
+    {
+      "content": "Jupyter notebook environment for AI experimentation and development. Document the notebook organization, common patterns, ML experiment tracking, visualization helpers, and integration with the DCYFR AI framework.",
+      "author": "DCYFR Engineering"
+    }
+  ]
+}
